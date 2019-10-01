@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
 import InventoryListContainer from "./Containers/InventoryListContainer"
-import CartWidget from "./Components/CartWidget"
+import CartWidgetContainer from "./Containers/CartWidgetContainer"
 
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <CartWidget cart={this.props.cart}/>
+      <React.Fragment>
+        {/* Remove container from app, add to cartwidget */}
+        <CartWidgetContainer />
         <InventoryListContainer />
-      </div>
+      </React.Fragment>
     );
   }
 }

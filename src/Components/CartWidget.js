@@ -1,10 +1,7 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 
 class CartWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
   render() {
     let count = this.props.cart.reduce((r, i) => {
@@ -13,7 +10,9 @@ class CartWidget extends React.Component {
 
     return (
       <div>
-        <p>cart: {count}</p>
+        <Link to="/cart" className="btn btn-primary">
+        cart: {count}
+        </Link>
       </div>
     );
   }
