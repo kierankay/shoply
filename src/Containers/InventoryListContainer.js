@@ -3,7 +3,6 @@ import { add, remove } from "../actions.js";
 import {connect} from "react-redux"
 
 function mapStateToProps(state) {
-    console.log(state)
   return {
     inventory: state.inventory
   };

@@ -7,32 +7,57 @@ const INITIAL_STATE = {
 };
 
 for (let i in data.products) {
-  INITIAL_STATE.inventory.push({ id: [i], details: data.products[i] });
+  INITIAL_STATE.inventory.push({ id: i, details: data.products[i] });
 }
-
-console.log({ INITIAL_STATE });
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD:
       let matchingItem = state.cart.filter(item => {
-        return item.id === Object.keys(action.payload)[0];
+        return item.id === action.payload.id;
       });
 
       if (matchingItem.length) {
         matchingItem[0].count += 1;
+
+        let notItem = state.cart.filter(item => {
+          return item.id !== action.payload.id;
+        });
+
+        return {
+          inventory: state.inventory,
+          cart: [...notItem, ...matchingItem]
+        };
       } else {
-        let matchingItem = state.inventory.filter(item => {
-          return item.id === Object.keys(action.payload)[0];
+        matchingItem = state.inventory.filter(item => {
+          return item.id === action.payload.id;
         });
 
         matchingItem[0].count = 1;
+        return {
+          inventory: state.inventory,
+          cart: [...state.cart, ...matchingItem]
+        };
       }
+      
 
-      return {
-        inventory: state.inventory,
-        cart: [...state.cart, ...matchingItem]
-      };
+    case REMOVE:
+      let matchToItem = state.cart.filter(item => {
+        return item.id === action.payload.id;
+      });
+
+      if (matchToItem.length && matchToItem[0].count > 0) {
+        matchToItem[0].count -= 1;
+
+        let notItem = state.cart.filter(item => {
+          return item.id !== action.payload.id;
+        });
+
+        return {
+          inventory: state.inventory,
+          cart: [...notItem, ...matchToItem]
+        };
+      } 
 
     default:
       return state;
